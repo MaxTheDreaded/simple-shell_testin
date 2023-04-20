@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# This script will print the maximum value a process ID can be set to.
+# This is useful for determining the maximum number of processes that can be
+# running on a system at any given time.
+
+# The maximum value a process ID can be set to is stored in the file
+# /proc/sys/kernel/pid_max.  This file contains a single number, which is
+# the maximum value a process ID can be set to.
+
+# Check to see if the file exists.
+if [ -f /proc/sys/kernel/pid_max ]; then
+    # The file exists, so print the contents of the file.
+    cat /proc/sys/kernel/pid_max
+else
+    # The file does not exist, so print an error message.
+    echo "Error: The file /proc/sys/kernel/pid_max does not exist."
+fi
+
+# End of script.
