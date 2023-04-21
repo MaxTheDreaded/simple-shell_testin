@@ -119,7 +119,7 @@ int main(void)
     {
         if (readInput(&line) == -1)
             return (-1);
-        args = strtok(line, " \t\r\n\a");
+        *args = strtok(line, " \t\r\n\a");
         if (args[0] == NULL)
             continue;
         for (i = 0; i < num_builtins; i++)
