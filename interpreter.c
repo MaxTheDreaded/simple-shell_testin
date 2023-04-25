@@ -119,7 +119,8 @@ if (stat(command, &st) != 0)
 {
 if (path_array[i + 1] == NULL)
 {
-write(STDERR_FILENO, "Command not found\n", 17);
+write(STDERR_FILENO, "Command not found", 17);
+write(STDERR_FILENO, "\n", 1);
 return;
 }
 }
