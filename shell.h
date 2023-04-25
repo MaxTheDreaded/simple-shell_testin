@@ -29,22 +29,32 @@ void read_input(char *buffer);
 
 /* interpreter.c */
 void parse_input(char *buffer, char **args);
-int command_AR(char **args, char **env);
+void command_AR(char **args, char **env);
 void path_run(char **args, char **env);
 void exec_command(char **args, char **env);
 
 /* builtin.c */
 void print_env(char **environ);
+void exit_shell(int status);
+int _setenv(char *name, char *value);
+int _unsetenv(char *name);
+void _cd(char *args);
+
+/* getline.c */
+char *_getline(const int fd);
 
 /* other.c */
 int _strcmp(char *s1, char *s2);
 char *_strcat(char *dest, char *src);
 char *_strdup(char *str);
+int _atoi(char *s);
 int _strlen(char *s);
-char *_strncpy(char *dest, char *src, int n);
 
 /* other_1.c */
-int _atoi(char *s);
+int _strncmp(char *s1, char *s2, int n);
 char *_getenv(char *name);
+char *_strtok(char *str, const char *delim);
+char *_strncpy(char *dest, char *src, int n);
+char *_strcpy(char *dest, char *src);
 
 #endif

@@ -22,20 +22,6 @@ return (0);
 }
 
 /**
- * _strlen - returns the length of a string
- * @s: string
- * Return: length of string
- */
-int _strlen(char *s)
-{
-int i = 0;
-
-while (s[i] != '\0')
-i++;
-return (i);
-}
-
-/**
  * _strdup - returns a pointer to a newly allocated space in memory
  * @str: string
  * Return: pointer to new string
@@ -57,6 +43,7 @@ i++;
 }
 new[i] = '\0';
 return (new);
+free(new);
 }
 
 /**
@@ -106,4 +93,18 @@ j++;
 }
 dest[i] = '\0';
 return (dest);
+}
+
+/**
+ * _strlen - returns the length of a string
+ * @s: string
+ * Return: length of string
+ */
+int _strlen(char *s)
+{
+int i = 0;
+
+while (s[i] != '\0')
+i++;
+return (i);
 }
