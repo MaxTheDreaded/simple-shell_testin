@@ -2,6 +2,7 @@
 
 /**
  * print_env - prints the environment
+ * @environ: environment variables
  * Return: void
  */
 void print_env(char **environ)
@@ -27,143 +28,95 @@ exit(status);
 }
 
 /**
- * _setenv - sets the value of an environment variable
- * @name: name of the environment variable
- * @value: value of the environment variable
- * Return: 0 on success, -1 on failure
- */
-int _setenv(char *name, char *value)
-{
-int i = 0;
-char *env_var;
-char *new_env_var;
-
-while (environ[i] != NULL)
-{
-env_var = _strdup(environ[i]);
-if (env_var != NULL && (_strncmp(env_var, name, _strlen(name)) == 0))
-{
-new_env_var = malloc(_strlen(name) + _strlen(value) + 2);
-_strcpy(new_env_var, name);
-_strcat(new_env_var, "=");
-_strcat(new_env_var, value);
-free(environ[i]);
-environ[i] = new_env_var;
-free(env_var);
-return (0);
-}
-free(env_var);
-i++;
-}
-return (-1);
-}
-
-/**
- * _unsetenv - unsets an environment variable
- * @name: name of the environment variable
- * Return: 0 on success, -1 on failure
- */
-int _unsetenv(char *name)
-{
-int i = 0;
-char *env_var;
-
-while (environ[i] != NULL)
-{
-env_var = _strdup(environ[i]);
-if (env_var != NULL && (_strncmp(env_var, name, _strlen(name)) == 0))
-{
-free(environ[i]);
-while (environ[i + 1] != NULL)
-{
-environ[i] = environ[i + 1];
-i++;
-}
-environ[i] = NULL;
-free(env_var);
-return (0);
-}
-free(env_var);
-i++;
-}
-return (-1);
-}
-
-/**
- * _cd - changes the current working directory
- * @args: arguments
- * change directory to HOME if no arguments are given
- * change directory to the previous directory
- * if "-" is given as an argument
- * change directory to the path specified in the first argument
+ * set_env - sets the environment variable
+ * @var: variable name
+ * @value: variable value
  * Return: void
  */
-void _cd(char *args)
+void set_env(char *var, char *value)
 {
-char *home = _getenv("HOME");
-char *oldpwd = _getenv("OLDPWD");
-char *pwd = _getenv("PWD");
-char *newpwd;
-char *token;
-char *path;
+char *new;
+int i = 0;
+int j = 0;
+int k = 0;
+int len = 0;
 
-if (args == NULL)
+while (environ[i] != NULL)
 {
-if (chdir(home) == -1)
+if (_strncmp(environ[i], var, _strlen(var)) == 0)
 {
-perror("hsh");
-}
-else
+len = _strlen(environ[i]) + _strlen(value) + 1;
+new = malloc(sizeof(char) * len);
+if (new == NULL)
 {
-newpwd = malloc(_strlen(home) + 6);
-_strcpy(newpwd, "PWD=");
-_strcat(newpwd, home);
-_setenv("PWD", home);
-_setenv("OLDPWD", pwd);
-free(newpwd);
+perror("Error: ");
+return;
 }
-}
-else if (_strcmp(args, "-") == 0)
+while (environ[i][j] != '\0')
 {
-if (chdir(oldpwd) == -1)
+new[j] = environ[i][j];
+j++;
+}
+new[j] = '=';
+j++;
+while (value[k] != '\0')
 {
-perror("hsh");
+new[j] = value[k];
+j++;
+k++;
 }
-else
+new[j] = '\0';
+environ[i] = new;
+return;
+}
+i++;
+}
+}
+
+/**
+ * unset_env - unsets the environment variable
+ * @var: variable name
+ * Return: void
+ */
+void unset_env(char *var)
 {
-newpwd = malloc(_strlen(oldpwd) + 6);
-_strcpy(newpwd, "PWD=");
-_strcat(newpwd, oldpwd);
-_setenv("PWD", oldpwd);
-_setenv("OLDPWD", pwd);
-free(newpwd);
-}
-}
-else
+int i = 0;
+int j = 0;
+int k = 0;
+int len = 0;
+char *new;
+
+while (environ[i] != NULL)
 {
-token = strtok(args, " ");
-while (token != NULL)
+if (_strncmp(environ[i], var, _strlen(var)) == 0)
 {
-path = malloc(_strlen(token) + 1);
-_strcpy(path, token);
-token = strtok(NULL, " ");
-}
-if (chdir(path) == -1)
+len = _strlen(environ[i]);
+new = malloc(sizeof(char) * len);
+if (new == NULL)
 {
-perror("hsh");
+perror("Error: ");
+return;
 }
-else
+while (environ[i][j] != '\0')
 {
-newpwd = malloc(_strlen(path) + 6);
-_strcpy(newpwd, "PWD=");
-_strcat(newpwd, path);
-_setenv("PWD", path);
-_setenv("OLDPWD", pwd);
-free(newpwd);
+if (environ[i][j] == '=')
+{
+j++;
+break;
 }
-free(path);
+new[j] = environ[i][j];
+j++;
 }
-free(home);
-free(oldpwd);
-free(pwd);
+while (environ[i][j] != '\0')
+{
+new[k] = environ[i][j];
+j++;
+k++;
+}
+new[k] = '\0';
+environ[i] = new;
+return;
+}
+i++;
+}
 }

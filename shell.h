@@ -31,14 +31,26 @@ void read_input(char *buffer);
 void parse_input(char *buffer, char **args);
 void command_AR(char **args, char **env);
 void path_run(char **args, char **env);
+void execute(char *command, char **args, char **env);
 void exec_command(char **args, char **env);
 
 /* builtin.c */
 void print_env(char **environ);
 void exit_shell(int status);
-int _setenv(char *name, char *value);
-int _unsetenv(char *name);
-void _cd(char *args);
+void set_env(char *var, char *value);
+void unset_env(char *var);
+
+/* cd_functions.c */
+void cd_run(char *path);
+void cd_home(void);
+void cd_path(char *path);
+void cd_prev(void);
+
+/* strtok_functions.c */
+char *_get_token(char *token, const char *delim, int n);
+
+/* exit_shell.c */
+void exit_sh(char **args);
 
 /* getline.c */
 char *_getline(const int fd);
@@ -48,7 +60,7 @@ int _strcmp(char *s1, char *s2);
 char *_strcat(char *dest, char *src);
 char *_strdup(char *str);
 int _atoi(char *s);
-int _strlen(char *s);
+int _strlen(const char *s);
 
 /* other_1.c */
 int _strncmp(char *s1, char *s2, int n);
@@ -56,5 +68,9 @@ char *_getenv(char *name);
 char *_strtok(char *str, const char *delim);
 char *_strncpy(char *dest, char *src, int n);
 char *_strcpy(char *dest, char *src);
+
+/* other_2.c */
+char *_strncat(char *dest, char *src, int n);
+char *_strntok(char *str, const char *delim, int n);
 
 #endif

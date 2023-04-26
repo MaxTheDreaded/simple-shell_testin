@@ -59,7 +59,7 @@ return (NULL);
  */
 char *_strtok(char *str, const char *delim)
 {
-static char *save = NULL;
+static char *save;
 char *token;
 int i = 0, j = 0;
 
