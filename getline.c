@@ -19,7 +19,10 @@ if (buffer[i] == '\n')
 {
 line = malloc(sizeof(char) * (j + 1));
 if (line == NULL)
+{
+perror("Error: malloc failed");
 return (NULL);
+}
 for (k = 0; k < j; k++)
 line[k] = buffer[k];
 line[k] = '\0';
@@ -28,5 +31,5 @@ return (line);
 j++;
 }
 }
-return (NULL);
+return (line);
 }
